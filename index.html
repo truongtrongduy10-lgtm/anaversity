@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kỷ Niệm Tháng Bên Nhau 💖 Gửi Công Chúa Của Anh</title>
+  <!-- Google Fonts: Quicksand (cute tròn trịa) & Dancing Script (chữ viết tay lãng mạn) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Canvas bắn pháo hoa trái tim & hiệu ứng lấp lánh toàn màn hình -->
+  <canvas id="fireworks-canvas" aria-hidden="true"></canvas>
+
+  <!-- Container chứa hiệu ứng trái tim bay theo con chuột -->
+  <div id="cursor-trail-container" aria-hidden="true"></div>
+  <!-- Con trỏ trái tim mượt mà -->
+  <div id="custom-heart-cursor" aria-hidden="true">💖</div>
+
+  <!-- Trái tim & mây hồng bay lơ lửng dưới nền -->
+  <div id="floating-bg-elements" class="floating-bg" aria-hidden="true"></div>
+
+  <!-- ===================================================================
+       1. MÀN HÌNH MỞ QUÀ BẤT NGỜ ĐẦU TIÊN (WELCOME GIFT OVERLAY)
+       =================================================================== -->
+  <div id="welcome-overlay" class="welcome-overlay">
+    <div class="welcome-card">
+      <div class="welcome-badge" id="welcome-badge">💌 Ting ting! Có bưu phẩm tình yêu</div>
+      
+      <div class="gift-box-wrapper" id="gift-box-trigger" title="Bấm vào hộp quà để mở nha!">
+        <div class="gift-sparkles">
+          <span>✨</span><span>💖</span><span>🌸</span><span>✨</span>
+        </div>
+        <div class="gift-box">
+          <div class="gift-lid">
+            <div class="gift-bow">🎀</div>
+          </div>
+          <div class="gift-body">
+            <div class="gift-heart">💝</div>
+          </div>
+        </div>
+        <p class="gift-hint">(Chạm vào hộp quà hoặc nút bên dưới nha 👇)</p>
+      </div>
+
+      <h1 class="welcome-title" id="welcome-title">Gửi Công Chúa Nhỏ Của Anh 👑</h1>
+      <p class="welcome-message" id="welcome-message">
+        Anh có chuẩn bị một món quà nhỏ xíu nhưng chứa đựng siêu nhiều tình yêu nhân dịp kỷ niệm của tụi mình nè. Em bé đã sẵn sàng mở quà chưa?
+      </p>
+
+      <button id="open-gift-btn" class="btn-primary btn-bounce">
+        <span id="welcome-btn-text">Mở Quà Ngay Nè 🎁✨</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       THANH ĐIỀU KHIỂN NỔI (NHẠC NỀN, BẮN PHÁO HOA, MƯA TRÁI TIM)
+       =================================================================== -->
+  <div class="floating-controls">
+    <button id="music-toggle-btn" class="control-pill" title="Bật/Tắt nhạc nền ngọt ngào">
+      <span class="control-icon" id="music-icon">🎵</span>
+      <span class="control-text" id="music-label">Nhạc yêu</span>
+    </button>
+    <button id="shoot-fireworks-btn" class="control-pill" title="Bắn pháo hoa trái tim ngay!">
+      <span class="control-icon">🎆</span>
+      <span class="control-text">Pháo hoa</span>
+    </button>
+    <button id="heart-shower-btn" class="control-pill" title="Tạo mưa trái tim ngọt ngào">
+      <span class="control-icon">💗</span>
+      <span class="control-text">Mưa tim</span>
+    </button>
+  </div>
+
+  <!-- Nếu người dùng muốn chép file music.mp3 vào thư mục thì tự động phát, nếu không sẽ phát giai điệu Music Box tích hợp sẵn -->
+  <audio id="bg-audio" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- ===================================================================
+       NỘI DUNG CHÍNH CỦA LANDING PAGE
+       =================================================================== -->
+  <main id="main-content" class="main-content">
+    
+    <!-- THANH ĐIỀU HƯỚNG NHỎ XINH -->
+    <header class="top-nav">
+      <div class="nav-inner">
+        <a href="#hero" class="nav-logo">💖 Our Love Story</a>
+        <nav class="nav-links">
+          <a href="#gallery-section">📸 Góc ảnh</a>
+          <a href="#quiz-section">😜 Khảo sát</a>
+          <a href="#letter-section">💌 Thư tình</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- 2. HERO SECTION & AVATAR CẶP ĐÔI -->
+    <section id="hero" class="hero-section">
+      <div class="container">
+        <div class="hero-badge-wrap">
+          <span class="hero-badge" id="anniversary-badge">✨ Happy Monthly Anniversary ✨</span>
+        </div>
+
+        <h1 class="hero-title" id="hero-title">Kỷ Niệm Tháng Bên Nhau Ngọt Ngào 💕</h1>
+        <p class="hero-subtitle" id="hero-subtitle">
+          Cảm ơn em bé đã xuất hiện và biến mỗi ngày của anh thành một câu chuyện cổ tích màu hồng!
+        </p>
+
+        <!-- Khung Avatar Cặp Đôi -->
+        <div class="couple-showcase">
+          <!-- Avatar Anh -->
+          <div class="lover-card">
+            <div class="avatar-frame">
+              <span class="avatar-crown">👑</span>
+              <img id="boy-avatar" src="images/avatar-boy.jpg" alt="Avatar Anh" />
+              <span class="avatar-sticker">🧸</span>
+            </div>
+            <h3 class="lover-name" id="boy-name">Anh Iuu</h3>
+            <p class="lover-role" id="boy-nickname">Chàng trai hay chiều chuộng</p>
+          </div>
+
+          <!-- Trái tim kết nối ở giữa -->
+          <div class="love-connector">
+            <div class="connector-line"></div>
+            <button class="beating-heart-btn" id="center-heart-btn" title="Bấm vào tim để bắn pháo hoa nè!">
+              <span class="big-heart">💖</span>
+              <span class="heart-tap-hint">Chạm vào tim!</span>
+            </button>
+            <div class="love-match-pill">1000% Hợp Nhau ✨</div>
+          </div>
+
+          <!-- Avatar Em -->
+          <div class="lover-card">
+            <div class="avatar-frame girl-frame">
+              <span class="avatar-crown">🎀</span>
+              <img id="girl-avatar" src="images/avatar-girl.jpg" alt="Avatar Em" />
+              <span class="avatar-sticker">🍓</span>
+            </div>
+            <h3 class="lover-name" id="girl-name">Minh Xinh Iuu</h3>
+            <p class="lover-role" id="girl-nickname">Cô gái hay dỗi</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. BỘ SƯU TẬP ẢNH KỶ NIỆM POLAROID (GALLERY) -->
+    <section id="gallery-section" class="gallery-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">📸 Góc Lưu Giữ Kỷ Niệm</span>
+          <h2 class="section-title">Khoảnh Khắc Đáng Yêu 💕</h2>
+          <p class="section-desc">
+            Mỗi bức ảnh là một mảnh ghép ngọt ngào. Em bé bấm vào từng tấm ảnh để xem lời nhắn bí mật của anh nha!
+          </p>
+        </div>
+
+        <!-- Lưới ảnh Polaroid được render từ config.js -->
+        <div id="polaroid-grid" class="polaroid-grid"></div>
+      </div>
+    </section>
+
+    <!-- 6. TRÒ CHƠI KHẢO SÁT TINH NGHỊCH (RUNAWAY BUTTON MINIGAME) -->
+    <section id="quiz-section" class="quiz-section">
+      <div class="container">
+        <div class="glass-card quiz-card" id="quiz-card-arena">
+          <div class="quiz-floating-decor">🍓 🧸 💖 🍭</div>
+          <span class="section-tag">😜 Góc Khảo Sát Tinh Nghịch</span>
+          <h2 class="quiz-question" id="quiz-question">
+            Khảo sát cực kỳ nghiêm túc: Em có yêu anh nhiều nhất trên đời hong? 🥺👉👈
+          </h2>
+
+          <div class="quiz-buttons-area" id="quiz-buttons-area">
+            <button id="btn-yes-love" class="btn-primary btn-yes">
+              Yêu anh nhất trên đời lun! 💖
+            </button>
+            <button id="btn-no-dodge" class="btn-secondary btn-no">
+              Hong thèm 😝
+            </button>
+          </div>
+
+          <!-- Thông báo phần thưởng khi bấm nút Yêu -->
+          <div id="quiz-reward-box" class="quiz-reward-box hidden">
+            <div class="reward-confetti-icons">🎉 🥰 🎆 👑 💖</div>
+            <h3 id="quiz-reward-title">Biết ngay mà!! Hihi yêu em bé nhứt! 🥰🎆</h3>
+            <p id="quiz-reward-message"></p>
+            <button id="btn-more-fireworks" class="btn-primary btn-small">
+              Bắn Pháo Hoa Ăn Mừng Tiếp Nè 🎆
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. VOUCHER ĐẶC QUYỀN TÌNH YÊU (LOVE COUPONS) -->
+    <section id="coupons-section" class="coupons-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">🎟️ Quà Tặng Kèm Đặc Biệt</span>
+          <h2 class="section-title">Voucher Đặc Quyền Dành Riêng Cho Công Chúa 👑</h2>
+          <p class="section-desc">
+            Em bé thích quyền lợi nào cứ bấm "Nhận Voucher" nha — anh tài trợ 100% trọn đời!
+          </p>
+        </div>
+
+        <div id="coupons-grid" class="coupons-grid"></div>
+      </div>
+    </section>
+
+    <!-- 8. BỨC THƯ TÌNH LÃNG MẠN (3D ENVELOPE & LOVE LETTER) -->
+    <section id="letter-section" class="letter-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">💌 Lời Nhắn Từ Trái Tim</span>
+          <h2 class="section-title">Bức Thư Nhỏ Gửi Em Bé Của Anh 🌷</h2>
+          <p class="section-desc">
+            Chạm vào chiếc phong bì màu hồng bên dưới để mở thư nha!
+          </p>
+        </div>
+
+        <div class="envelope-stage">
+          <!-- Phong bì 3D -->
+          <div id="love-envelope" class="envelope-wrapper" title="Bấm để mở thư tình!">
+            <div class="envelope-back"></div>
+            <div class="envelope-letter-preview">
+              <span>Gửi Công Chúa Của Anh 💖</span>
+            </div>
+            <div class="envelope-front"></div>
+            <div class="envelope-flap"></div>
+            <div class="wax-seal">💝</div>
+          </div>
+
+          <button id="toggle-letter-btn" class="btn-primary">
+            💌 Mở Phong Bì Đọc Thư
+          </button>
+
+          <!-- Nội dung bức thư khi mở ra -->
+          <div id="letter-paper" class="letter-paper hidden">
+            <div class="letter-paper-decor-top">🌸 ✨ 💖 ✨ 🌸</div>
+            <h3 class="letter-greeting" id="letter-greeting">Gửi công chúa nhỏ đáng yêu của anh, 💌</h3>
+            <div id="letter-body" class="letter-body"></div>
+            <div class="letter-footer">
+              <p class="letter-signoff" id="letter-signoff">Yêu em rất rất nhiều,</p>
+              <p class="letter-signature" id="letter-signature">Chàng trai của em 💖</p>
+            </div>
+            <div class="letter-actions">
+              <button id="btn-grand-finale" class="btn-primary btn-bounce">
+                💋 Gửi Ngàn Nụ Hôn & Bắn Đại Tiệc Pháo Hoa 🎆
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER DỄ THƯƠNG -->
+    <footer class="cute-footer">
+      <div class="container">
+        <div class="footer-hearts">💖 🍓 🧸 🌸 ✨</div>
+        <p class="footer-text">
+          Được làm với <strong>1000% tình yêu</strong> dành riêng cho Công Chúa Nhỏ 👑
+        </p>
+        <p class="footer-sub">Happy Monthly Anniversary • Mãi bên nhau em nhé!</p>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ===================================================================
+       MODAL LIGHTBOX XEM ẢNH KỶ NIỆM PHÓNG TO
+       =================================================================== -->
+  <div id="lightbox-modal" class="lightbox-modal hidden" role="dialog" aria-modal="true">
+    <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+    <div class="lightbox-content">
+      <button id="lightbox-close" class="lightbox-close" title="Đóng">✕</button>
+      <div class="lightbox-polaroid">
+        <div class="lightbox-sticker" id="lightbox-sticker">🍓</div>
+        <img id="lightbox-img" src="" alt="Ảnh kỷ niệm" />
+        <div class="lightbox-info">
+          <span class="lightbox-date" id="lightbox-date">Khoảnh khắc #01</span>
+          <h3 class="lightbox-caption" id="lightbox-caption"></h3>
+          <p class="lightbox-story" id="lightbox-story"></p>
+        </div>
+      </div>
+      <div class="lightbox-nav">
+        <button id="lightbox-prev" class="btn-secondary btn-small">⬅ Ảnh trước</button>
+        <button id="lightbox-love-burst" class="btn-primary btn-small">💖 Thả tim bức ảnh này</button>
+        <button id="lightbox-next" class="btn-secondary btn-small">Ảnh tiếp ➡</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nạp file cấu hình và kịch bản tương tác -->
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
